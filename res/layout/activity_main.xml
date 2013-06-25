@@ -9,48 +9,66 @@
     tools:context=".MainActivity" >
 
     <!-- Displays connection status -->
-    <TextView
-        android:id="@+id/statusLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="38dp"
-        android:text="Connection Status"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <!-- Phone number entry -->
     <EditText
         android:id="@+id/phoneInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/statusLabel"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
         android:ems="10"
-        android:inputType="phone" >
+        android:inputType="phone" />
 
-        <requestFocus />
-    </EditText>
+    <!-- Dialpad -->
 
-    <!-- Calls inputed number -->
+    <GridView
+        android:id="@+id/dialpad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/callButton"
+        android:layout_alignLeft="@+id/wifiLevelLabel"
+        android:layout_below="@+id/phoneInput"
+        android:numColumns="3" >
+        
+    </GridView>
+    
+    <!-- Call Button -->
     <Button
         android:id="@+id/callButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/phoneInput"
+        android:layout_above="@+id/cellLevelLabel"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:text="Call" />
 
-    <!-- Turns network on/off -->
-    <ToggleButton
-        android:id="@+id/dropToggle"
+   <TextView
+        android:id="@+id/wifiLevelLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/callButton"
-        android:layout_below="@+id/callButton"
-        android:layout_marginTop="42dp"
-        android:text="Drop" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="Wifi Status"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/cellLevelLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/wifiLevelLabel"
+        android:layout_alignBottom="@+id/wifiLevelLabel"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp"
+        android:text="Cell Status"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/statusLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:text="Connection Status"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

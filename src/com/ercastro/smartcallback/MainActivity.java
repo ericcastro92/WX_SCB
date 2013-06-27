@@ -1,30 +1,25 @@
 package com.ercastro.smartcallback;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
-import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.text.InputType;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends Activity 
 {	
@@ -33,6 +28,7 @@ public class MainActivity extends Activity
 	
 	private static boolean callDropped = false;
 	
+	private String phoneNumber;
 	private String recentPhoneURI;
 	
 	@Override
@@ -44,19 +40,26 @@ public class MainActivity extends Activity
 		//Get layout buttons/views/etc
 		final TextView statusLabel = (TextView) findViewById(R.id.statusLabel);
 		final TextView cellLevelLabel = (TextView) findViewById(R.id.cellLevelLabel);
-		final EditText phoneField = (EditText) findViewById(R.id.phoneInput);
 		final EditText meetingField = (EditText) findViewById(R.id.meetingNumberInput);
 		final EditText passwordField = (EditText) findViewById(R.id.meetingPasswordInput);
+		final Spinner locationSelector = (Spinner) findViewById(R.id.phoneInput);
 		Button callButton = (Button) findViewById(R.id.callButton);
 		GridView dialpad = (GridView) findViewById(R.id.dialpad);
 		
 		//TelephonyManager setup
 		initializeResources();
+		final DialpadAdapter dialpadAdapter = new DialpadAdapter(meetingField, this);
 		
-		final DialpadAdapter dialpadAdapter = new DialpadAdapter(phoneField, this);
+		//Set up spinner
+		locationSelector.setPrompt("Location");
+		ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(this,
+				R.array.countries, android.R.layout.simple_spinner_item);
+		countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		locationSelector.setAdapter(countryAdapter);
+		locationSelector.setOnItemSelectedListener(new CountrySelectedListener(this));
 		
 		//Set up Focus listeners
-		phoneField.setOnFocusChangeListener(new View.OnFocusChangeListener()
+		locationSelector.setOnFocusChangeListener(new View.OnFocusChangeListener()
 		{
 			@Override
 			public void onFocusChange(View view, boolean hasFocus) {
@@ -80,7 +83,6 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View view) 
 			{
-				String phoneNumber = phoneField.getText().toString();
 				String meetingNumber = meetingField.getText().toString();
 				String url = "tel:" + phoneNumber + "," + meetingNumber;
 				recentPhoneURI = url;
@@ -91,7 +93,6 @@ public class MainActivity extends Activity
 		});
 
 		//Disable keyboard on phone & meeting fields
-		phoneField.setInputType(InputType.TYPE_NULL);
 		meetingField.setInputType(InputType.TYPE_NULL);
 		
 		//PhoneStateListener & callback method set up
@@ -131,6 +132,17 @@ public class MainActivity extends Activity
 				statusLabel.setText(state);
 			}
 			
+			/**
+			 * Attempt to return back to SCB after disconnected call
+			 */
+			public void onCallStateChanged(int state, String incomingNumber){
+				switch(state){
+					case TelephonyManager.CALL_STATE_RINGING:break;
+					case TelephonyManager.CALL_STATE_OFFHOOK:break;
+					case TelephonyManager.CALL_STATE_IDLE:break;
+					default:break;	
+				}
+			}
 		};
 		
 		telManager.listen(phoneStateListener,
@@ -167,4 +179,15 @@ public class MainActivity extends Activity
 		return true;
 	}
 
+	public void setPhoneNumber(int countryID)
+	{
+		switch(countryID){
+			case Constants.US_WEST: phoneNumber = "14085256800";break;
+			case Constants.US_EAST: phoneNumber = "19193923330";break;
+			case Constants.ALGERIA_ALGIERS: phoneNumber = "21321989047";break;
+			
+		}
+		
+		Log.e("Selected Country Number", phoneNumber);
+	}
 }

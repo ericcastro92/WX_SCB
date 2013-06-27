@@ -5,4 +5,22 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
 
+    <string-array name = "countries">
+        <item>United States (WEST)</item>
+        <item>United States (EAST)</item>
+		<item>Algeria - Algiers</item>
+        <item >Argentina - Buenos Aires</item>
+        <item >Australia - Canberra</item>
+        <item >Australia - Melbourne</item>
+        <item >Australia - North Sydney</item>
+        <item >Austria - Vienna</item>
+        <item >Azbaijan - Baku</item>
+        <item >Bangladesh - Dhaka</item>
+        <item >Belgium - Dhaka</item>
+        <item >Belgium - Brussels</item>
+        <item >Bosnia/Hergovina - Sarajevo</item>
+        <item >Brazil - Brasilia</item>
+        <item >Brazil - Rio de Janeiro</item>
+        <item >Brazil - San Paulo</item>
+    </string-array>
 </resources>

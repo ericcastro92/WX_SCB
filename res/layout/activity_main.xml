@@ -9,40 +9,48 @@
     tools:context=".MainActivity" >
 
     <!-- Displays connection status -->
-
-	<!-- Phone number display -->
-    <EditText
-        android:id="@+id/phoneInput"
+	  <TextView
+        android:id="@+id/statusLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/statusLabel"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Connection Status"
+        android:textAppearance="?android:attr/textAppearanceLarge" />  
+	  
+	<!-- Phone number spinner -->
+	<Spinner
+	    android:id="@+id/phoneInput"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/statusLabel"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:hint = "Phone number"
-        android:inputType="phone" />
-
-    <!-- Meeting number display -->
-       <EditText
+	    android:hint="Select Number"/>
+    
+	<!-- Meeting number display -->
+    <EditText
         android:id="@+id/meetingNumberInput"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/phoneInput"
+        android:layout_alignRight="@+id/meetingPasswordInput"
         android:layout_below="@+id/phoneInput"
         android:ems="10"
         android:hint="Meeting Number"
         android:inputType="phone" >
+
         <requestFocus />
     </EditText>
-    
+	
     <!-- Meeting password display -->
     <EditText
         android:id="@+id/meetingPasswordInput"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/meetingNumberInput"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:hint="Meeitng Password"
+        android:hint="Meeting Password"
         android:inputType="textPassword" />  
       
     <!-- Dialpad -->
@@ -64,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:text="Wifi Status"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -78,21 +86,12 @@
         android:text="Cell Status"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/statusLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="Connection Status"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <Button
         android:id="@+id/callButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/cellLevelLabel"
         android:layout_centerHorizontal="true"
-        android:text="" />
+        android:text="Call" />
 
 </RelativeLayout>

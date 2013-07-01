@@ -14,12 +14,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 public class MainActivity extends Activity 
 {	
@@ -36,11 +37,12 @@ public class MainActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		
+		//Full screen setup
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 		
 		//Get layout buttons/views/etc
-		final TextView statusLabel = (TextView) findViewById(R.id.statusLabel);
-		final TextView cellLevelLabel = (TextView) findViewById(R.id.cellLevelLabel);
 		final EditText meetingField = (EditText) findViewById(R.id.meetingNumberInput);
 		//final EditText passwordField = (EditText) findViewById(R.id.meetingPasswordInput);
 		final Spinner regionSelector = (Spinner) findViewById(R.id.phoneInput);
@@ -66,8 +68,9 @@ public class MainActivity extends Activity
 			public void onClick(View view) 
 			{
 				String meetingNumber = meetingField.getText().toString();
+				//Each comma is a 2-second pause
 				//                   Region number      Meeting number      Participant number
-				String url = "tel:" + phoneNumber + "," + meetingNumber;
+				String url = "tel:" + phoneNumber + "," + meetingNumber + "," + "0";
 				recentPhoneURI = url;
 				Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
 				startActivity(intent);
@@ -84,7 +87,6 @@ public class MainActivity extends Activity
 			public void onSignalStrengthsChanged(SignalStrength signalStrength)
 			{
 				int strength = signalStrength.getGsmSignalStrength();
-				cellLevelLabel.setText("Cell Strength: " + strength);
 				//Log.e("Signal Strength", ""+strength);
 			}
 			
@@ -99,15 +101,10 @@ public class MainActivity extends Activity
 						ma.callBack();
 						break;
 					case ServiceState.STATE_OUT_OF_SERVICE:
-						//ma.setDroppedCall(true);
 						droppedCall = true;
-						cellLevelLabel.setText("Cell disabled");
 						state = "Out of service";
 						break;
 					case ServiceState.STATE_POWER_OFF:
-						//ma.setDroppedCall(true);
-						droppedCall = true;
-						cellLevelLabel.setText("Cell disabled");
 						state = "Power off";
 						break;
 					default: 
@@ -116,7 +113,6 @@ public class MainActivity extends Activity
 				}
 				
 				Log.e("Service State", state);
-				statusLabel.setText(state);
 			}
 			
 			/**
@@ -150,11 +146,6 @@ public class MainActivity extends Activity
 
 		dialpad.setAdapter(dialpadAdapter);
 	}
-	
-	/*public void setDroppedCall(boolean dropped)
-	{
-		this.droppedCall = dropped;
-	}*/
 
 	/**
 	 * Redials most recent number

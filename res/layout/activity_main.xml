@@ -1,29 +1,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
+    android:background="#00FF99" >
 
-    <!-- Displays connection status -->
-	  <TextView
-        android:id="@+id/statusLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <!-- Cisco logo -->    
+    <ImageView
+        android:id="@+id/ciscoLogo"
+        android:layout_width="125dp"
+        android:layout_height="75dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Connection Status"
-        android:textAppearance="?android:attr/textAppearanceLarge" />  
+        android:src="@drawable/cisco_logo" />
 	  
 	<!-- Phone number spinner -->
 	<Spinner
 	    android:id="@+id/phoneInput"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_below="@+id/statusLabel"
+	    android:layout_below="@+id/ciscoLogo"
         android:layout_centerHorizontal="true"
         android:ems="10"
 	    android:hint="Select Number"/>
@@ -58,40 +58,17 @@
         android:id="@+id/dialpad"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/callButton"
-        android:layout_alignLeft="@+id/wifiLevelLabel"
         android:layout_below="@+id/meetingPasswordInput"
-        android:numColumns="3" >
-        
-    </GridView>
+        android:layout_above="@+id/callButton"
+        android:numColumns="3" />  
     
     <!-- Call Button -->
-   <TextView
-        android:id="@+id/wifiLevelLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/cellLevelLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/wifiLevelLabel"
-        android:layout_alignBottom="@+id/wifiLevelLabel"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="18dp"
-        android:text="Cell Status"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
     <Button
         android:id="@+id/callButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/cellLevelLabel"
         android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
         android:text="Call" />
 
 </RelativeLayout>

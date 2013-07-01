@@ -58,9 +58,9 @@ public class DialpadAdapter extends BaseAdapter
 		final String label;
 		switch(position)
 		{
-			case 9: label = ""; break;
+			case 9: label = "CLEAR"; break;
 			case 10: label = "0"; break;
-			case 11: label = "DEL"; break;
+			case 11: label = "<<<"; break;
 			default:label = Integer.toString(position + 1);break;
 		}
 		button.setText(label);
@@ -75,6 +75,17 @@ public class DialpadAdapter extends BaseAdapter
 				field.setText(curNum);
 			}
 		});
+		
+		if(position==9)
+			button.setOnClickListener(new OnClickListener()
+			{
+				@Override
+				public void onClick(View view)
+				{
+					Log.e("Button", label);
+					field.setText("");
+				}
+			});
 		
 		if(position==11)
 			button.setOnClickListener(new OnClickListener()

@@ -21,11 +21,6 @@ public class DialpadAdapter extends BaseAdapter
 		this.field = field;
 	}
 	
-	public void setField(EditText field)
-	{
-		this.field = field;
-	}
-	
 	@Override
 	public int getCount() 
 	{

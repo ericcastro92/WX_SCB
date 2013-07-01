@@ -4,11 +4,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class CountrySelectedListener implements OnItemSelectedListener
+public class RegionSelectedListener implements OnItemSelectedListener
 {	
 	MainActivity ma;
 	
-	public CountrySelectedListener(MainActivity ma){
+	public RegionSelectedListener(MainActivity ma){
 		this.ma = ma;
 	}
 	

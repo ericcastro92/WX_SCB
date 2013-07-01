@@ -26,7 +26,8 @@ public class MainActivity extends Activity
 	private TelephonyManager telManager;
 	private final MainActivity ma = this;
 	
-	private static boolean callDropped = false;
+	private boolean droppedCall = false;
+	private boolean inCall = false;
 	
 	private String phoneNumber;
 	private String recentPhoneURI;
@@ -41,8 +42,8 @@ public class MainActivity extends Activity
 		final TextView statusLabel = (TextView) findViewById(R.id.statusLabel);
 		final TextView cellLevelLabel = (TextView) findViewById(R.id.cellLevelLabel);
 		final EditText meetingField = (EditText) findViewById(R.id.meetingNumberInput);
-		final EditText passwordField = (EditText) findViewById(R.id.meetingPasswordInput);
-		final Spinner locationSelector = (Spinner) findViewById(R.id.phoneInput);
+		//final EditText passwordField = (EditText) findViewById(R.id.meetingPasswordInput);
+		final Spinner regionSelector = (Spinner) findViewById(R.id.phoneInput);
 		Button callButton = (Button) findViewById(R.id.callButton);
 		GridView dialpad = (GridView) findViewById(R.id.dialpad);
 		
@@ -51,31 +52,12 @@ public class MainActivity extends Activity
 		final DialpadAdapter dialpadAdapter = new DialpadAdapter(meetingField, this);
 		
 		//Set up spinner
-		locationSelector.setPrompt("Location");
+		regionSelector.setPrompt("Region");
 		ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(this,
 				R.array.countries, android.R.layout.simple_spinner_item);
 		countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		locationSelector.setAdapter(countryAdapter);
-		locationSelector.setOnItemSelectedListener(new CountrySelectedListener(this));
-		
-		//Set up Focus listeners
-		locationSelector.setOnFocusChangeListener(new View.OnFocusChangeListener()
-		{
-			@Override
-			public void onFocusChange(View view, boolean hasFocus) {
-				EditText phoneField = (EditText) view;
-				dialpadAdapter.setField(phoneField);
-				Log.e("phoneField", "hasFocus: " + hasFocus);
-			}
-		});
-		meetingField.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-			@Override
-			public void onFocusChange(View view, boolean hasFocus) {
-				EditText meetingField = (EditText) view;
-				dialpadAdapter.setField(meetingField);
-				Log.e("meetingField", "hasFocus: " + hasFocus);
-			}
-		});
+		regionSelector.setAdapter(countryAdapter);
+		regionSelector.setOnItemSelectedListener(new RegionSelectedListener(this));
 		
 		//Initialize buttons
 		callButton.setOnClickListener(new OnClickListener()
@@ -84,6 +66,7 @@ public class MainActivity extends Activity
 			public void onClick(View view) 
 			{
 				String meetingNumber = meetingField.getText().toString();
+				//                   Region number      Meeting number      Participant number
 				String url = "tel:" + phoneNumber + "," + meetingNumber;
 				recentPhoneURI = url;
 				Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
@@ -102,7 +85,7 @@ public class MainActivity extends Activity
 			{
 				int strength = signalStrength.getGsmSignalStrength();
 				cellLevelLabel.setText("Cell Strength: " + strength);
-				Log.e("Signal Strength", ""+strength);
+				//Log.e("Signal Strength", ""+strength);
 			}
 			
 			public void onServiceStateChanged(ServiceState serviceState)
@@ -116,16 +99,20 @@ public class MainActivity extends Activity
 						ma.callBack();
 						break;
 					case ServiceState.STATE_OUT_OF_SERVICE:
-						callDropped = true;
+						//ma.setDroppedCall(true);
+						droppedCall = true;
 						cellLevelLabel.setText("Cell disabled");
 						state = "Out of service";
 						break;
 					case ServiceState.STATE_POWER_OFF:
-						callDropped = true;
+						//ma.setDroppedCall(true);
+						droppedCall = true;
 						cellLevelLabel.setText("Cell disabled");
 						state = "Power off";
 						break;
-					default: state = "Invalid State ID"; break;
+					default: 
+						state = "Invalid State ID"; 
+						break;
 				}
 				
 				Log.e("Service State", state);
@@ -137,9 +124,20 @@ public class MainActivity extends Activity
 			 */
 			public void onCallStateChanged(int state, String incomingNumber){
 				switch(state){
-					case TelephonyManager.CALL_STATE_RINGING:break;
-					case TelephonyManager.CALL_STATE_OFFHOOK:break;
-					case TelephonyManager.CALL_STATE_IDLE:break;
+					case TelephonyManager.CALL_STATE_RINGING:
+						Log.e("CALL_STATE", "Ringing");
+						break;
+					case TelephonyManager.CALL_STATE_OFFHOOK:
+						Log.e("CALL_STATE", "Offhook");
+						inCall = true;
+						//Return to SCB once call is connected
+						break;
+					case TelephonyManager.CALL_STATE_IDLE:
+						Log.e("CALL_STATE", "Idle");
+						Log.e("Dropped Call (TELE)", "" + droppedCall);
+						if(!droppedCall)
+							inCall = false;
+						break;
 					default:break;	
 				}
 			}
@@ -152,16 +150,22 @@ public class MainActivity extends Activity
 
 		dialpad.setAdapter(dialpadAdapter);
 	}
+	
+	/*public void setDroppedCall(boolean dropped)
+	{
+		this.droppedCall = dropped;
+	}*/
 
-	/*
+	/**
 	 * Redials most recent number
 	 */
 	public void callBack()
 	{
-		if(!callDropped || recentPhoneURI==null || recentPhoneURI.isEmpty())
+		Log.e("DroppedCall & InCall", droppedCall + " " + inCall);
+		if(!droppedCall || !inCall)
 			return;
 		
-		callDropped = false;
+		droppedCall = false;
 		Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(recentPhoneURI));
 		startActivity(intent);
 	}
@@ -185,7 +189,9 @@ public class MainActivity extends Activity
 			case Constants.US_WEST: phoneNumber = "14085256800";break;
 			case Constants.US_EAST: phoneNumber = "19193923330";break;
 			case Constants.ALGERIA_ALGIERS: phoneNumber = "21321989047";break;
-			
+			case Constants.ARGENTINA_BUENOS_AIRES: phoneNumber = "541143410101";break;
+			case Constants.AUSTRALIA_CANBERRA: phoneNumber = "61262160643";break;
+			default:phoneNumber="";break;
 		}
 		
 		Log.e("Selected Country Number", phoneNumber);

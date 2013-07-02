@@ -69,10 +69,12 @@ public class MainActivity extends Activity
 			{
 				String meetingNumber = meetingField.getText().toString();
 				//Each comma is a 2-second pause
-				//                   Region number      Meeting number      Participant number
-				String url = "tel:" + phoneNumber + "," + meetingNumber + "," + "0";
-				recentPhoneURI = url;
-				Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
+				//                   			 Region number      Meeting number      Attendee ID
+				String uri = "tel:" + Uri.encode(phoneNumber + "," + meetingNumber + ",," + "#");
+				recentPhoneURI = uri;
+				Intent intent = new Intent();
+				intent.setAction(Intent.ACTION_CALL);
+				intent.setData(Uri.parse(recentPhoneURI));
 				startActivity(intent);
 			}
 			
@@ -105,6 +107,7 @@ public class MainActivity extends Activity
 						state = "Out of service";
 						break;
 					case ServiceState.STATE_POWER_OFF:
+						droppedCall = true;
 						state = "Power off";
 						break;
 					default: 
@@ -157,7 +160,9 @@ public class MainActivity extends Activity
 			return;
 		
 		droppedCall = false;
-		Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(recentPhoneURI));
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_CALL);
+		intent.setData(Uri.parse(recentPhoneURI));
 		startActivity(intent);
 	}
 	

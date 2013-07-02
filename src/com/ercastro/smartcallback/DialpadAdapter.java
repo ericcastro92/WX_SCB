@@ -69,7 +69,7 @@ public class DialpadAdapter extends BaseAdapter
 			@Override
 			public void onClick(View view) 
 			{
-				Log.e("Button", label);
+				//Log.e("Button", label);
 				String curNum = field.getText().toString();
 				curNum+=label;
 				field.setText(curNum);
@@ -82,7 +82,7 @@ public class DialpadAdapter extends BaseAdapter
 				@Override
 				public void onClick(View view)
 				{
-					Log.e("Button", label);
+			//		Log.e("Button", label);
 					field.setText("");
 				}
 			});
@@ -93,12 +93,15 @@ public class DialpadAdapter extends BaseAdapter
 				@Override
 				public void onClick(View view) 
 				{
-					Log.e("Button", label);
+		//			Log.e("Button", label);
 					String curNum = field.getText().toString();
 					if(!curNum.isEmpty())
 						field.setText(curNum.substring(0,curNum.length()-1));
 				}
 			});
+		
+		//button.setBackgroundResource(R.drawable.custom_button);
+		//button.setPadding(10,10,10,10);
 		
 		return button;
 	}

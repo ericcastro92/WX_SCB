@@ -1,7 +1,6 @@
 package com.ercastro.smartcallback;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -37,6 +36,11 @@ public class DialpadAdapter extends BaseAdapter
 	public long getItemId(int position) 
 	{
 		return 0;
+	}
+	
+	public void setField(EditText field)
+	{
+		this.field = field;
 	}
 
 	@Override
@@ -93,15 +97,12 @@ public class DialpadAdapter extends BaseAdapter
 				@Override
 				public void onClick(View view) 
 				{
-		//			Log.e("Button", label);
+					//Log.e("Button", label);
 					String curNum = field.getText().toString();
 					if(!curNum.isEmpty())
 						field.setText(curNum.substring(0,curNum.length()-1));
 				}
 			});
-		
-		//button.setBackgroundResource(R.drawable.custom_button);
-		//button.setPadding(10,10,10,10);
 		
 		return button;
 	}

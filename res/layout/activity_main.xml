@@ -12,6 +12,7 @@
     <!-- Cisco logo -->    
     <ImageView
         android:id="@+id/ciscoLogo"
+        android:contentDescription="@string/cisco_logo_description"
         android:layout_width="125dp"
         android:layout_height="75dp"
         android:layout_alignParentTop="true"
@@ -25,8 +26,7 @@
 	    android:layout_height="wrap_content"
 	    android:layout_below="@+id/ciscoLogo"
         android:layout_centerHorizontal="true"
-        android:ems="10"
-	    android:hint="Select Number"/>
+        android:ems="10"/>
     
 	<!-- Meeting number display -->
     <EditText
@@ -36,29 +36,29 @@
         android:layout_alignRight="@+id/meetingPasswordInput"
         android:layout_below="@+id/phoneInput"
         android:ems="10"
-        android:hint="Meeting Number"
+        android:hint="@string/meeting_number_hint"
         android:inputType="phone" >
 
         <requestFocus />
     </EditText>
 	
-    <!-- Meeting password display -->
+    <!-- Attendee ID display -->
     <EditText
-        android:id="@+id/meetingPasswordInput"
+        android:id="@+id/attendeeIDInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/meetingNumberInput"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:hint="Meeting Password"
-        android:inputType="textPassword" />  
+        android:hint="@string/attendee_ID_hint"
+        android:inputType="phone" />  
       
     <!-- Dialpad -->
     <GridView
         android:id="@+id/dialpad"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/meetingPasswordInput"
+        android:layout_below="@+id/attendeeIDInput"
         android:layout_above="@+id/callButton"
         android:numColumns="3" />  
     
@@ -69,6 +69,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:text="Call" />
+        android:text="@string/call_button_text" />
 
 </RelativeLayout>
